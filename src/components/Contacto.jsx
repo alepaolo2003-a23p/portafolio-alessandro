@@ -1,18 +1,12 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 
-emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
-
 export default function Contacto() {
-  const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' })
+  const formRef = useRef(null)
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -20,20 +14,17 @@ export default function Contacto() {
     setError('')
 
     try {
-      await emailjs.send(
+      await emailjs.sendForm(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.nombre,
-          from_email: form.email,
-          message: form.mensaje,
-        },
+        formRef.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       )
       setSent(true)
-      setForm({ nombre: '', email: '', mensaje: '' })
+      formRef.current.reset()
     } catch (err) {
-      console.error(err)
-      setError('No se pudo enviar el mensaje. Intenta de nuevo.')
+      console.error('EmailJS error:', err)
+      setError(err.text || 'No se pudo enviar el mensaje. Intenta de nuevo.')
     } finally {
       setSending(false)
     }
@@ -80,16 +71,14 @@ export default function Contacto() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="font-mono text-xs text-text-secondary mb-1.5 block">
                     $ nombre
                   </label>
                   <input
                     type="text"
-                    name="nombre"
-                    value={form.nombre}
-                    onChange={handleChange}
+                    name="from_name"
                     required
                     placeholder="Tu nombre"
                     className="glass-input w-full px-4 py-3 font-mono text-sm"
@@ -102,9 +91,7 @@ export default function Contacto() {
                   </label>
                   <input
                     type="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
+                    name="from_email"
                     required
                     placeholder="tu@email.com"
                     className="glass-input w-full px-4 py-3 font-mono text-sm"
@@ -116,9 +103,7 @@ export default function Contacto() {
                     $ mensaje
                   </label>
                   <textarea
-                    name="mensaje"
-                    value={form.mensaje}
-                    onChange={handleChange}
+                    name="message"
                     required
                     rows={4}
                     placeholder="Escribe tu mensaje..."
