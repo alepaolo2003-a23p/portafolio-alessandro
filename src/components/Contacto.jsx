@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import emailjs from '@emailjs/browser'
 
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+
 export default function Contacto() {
   const [form, setForm] = useState({ nombre: '', email: '', mensaje: '' })
   const [sending, setSending] = useState(false)
@@ -26,11 +28,11 @@ export default function Contacto() {
           from_email: form.email,
           message: form.mensaje,
         },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       )
       setSent(true)
       setForm({ nombre: '', email: '', mensaje: '' })
-    } catch {
+    } catch (err) {
+      console.error(err)
       setError('No se pudo enviar el mensaje. Intenta de nuevo.')
     } finally {
       setSending(false)
@@ -151,7 +153,7 @@ export default function Contacto() {
 
             <div className="glass-card p-6 space-y-5">
               <a
-                href="https://github.com/tu-usuario"
+                href="https://github.com/alepaolo2003-a23p"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 group"
@@ -163,13 +165,13 @@ export default function Contacto() {
                 </div>
                 <div>
                   <p className="font-mono text-sm text-text-primary group-hover:text-git-green transition-colors">GitHub</p>
-                  <p className="font-mono text-xs text-text-secondary">/tu-usuario</p>
+                  <p className="font-mono text-xs text-text-secondary">/alepaolo2003-a23p</p>
                 </div>
                 <span className="ml-auto font-mono text-xs text-git-green">↗</span>
               </a>
 
               <a
-                href="https://linkedin.com/in/tu-usuario"
+                href="https://www.linkedin.com/in/alepzf7"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 group"
@@ -181,7 +183,7 @@ export default function Contacto() {
                 </div>
                 <div>
                   <p className="font-mono text-sm text-text-primary group-hover:text-git-green transition-colors">LinkedIn</p>
-                  <p className="font-mono text-xs text-text-secondary">/in/tu-usuario</p>
+                  <p className="font-mono text-xs text-text-secondary">/in/alepzf7</p>
                 </div>
                 <span className="ml-auto font-mono text-xs text-git-green">↗</span>
               </a>
@@ -190,7 +192,7 @@ export default function Contacto() {
             <div className="glass-card p-6 mt-6">
               <p className="font-mono text-xs text-text-secondary mb-2">$ Información adicional</p>
               <div className="diff-line added font-mono text-sm text-text-primary">
-                alejandrozelada@email.com
+                alessandro.zelada.dev@gmail.com
               </div>
               <div className="diff-line added font-mono text-sm text-text-primary mt-1">
                 IESTP Aráoz Pinto — 5to ciclo

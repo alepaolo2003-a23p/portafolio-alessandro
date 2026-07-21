@@ -8,14 +8,16 @@ const proyectos = [
     tags: ['PHP', 'MySQL', 'JavaScript', 'Responsive'],
     type: 'feature',
     metric: 'Proyecto académico — IESTP Aráoz Pinto',
+    url: null,
   },
   {
     hash: 'e4f5g6h',
-    title: 'Sistema CRM',
-    description: 'Sistema completo con CRUD, autenticación por roles (admin, vendedor), panel de administración y generación de reportes.',
-    tags: ['C#', 'ASP.NET MVC', 'SQL Server', 'Bootstrap'],
-    type: 'fix',
-    metric: 'Reducción del 70% en tiempos de gestión',
+    title: 'Cliente Ágil CRM',
+    description: 'Sistema CRM completo desarrollado en Java durante 3 meses. Gestión de clientes, contactos, seguimiento de oportunidades de venta, con base de datos relacional y estructura modular orientada a objetos.',
+    tags: ['Java', 'MySQL', 'OOP', 'Arquitectura MVC'],
+    type: 'feature',
+    metric: 'Proyecto de curso finalizado — Desarrollo de Software',
+    url: 'https://github.com/alepaolo2003-a23p/Proyecto-CRM',
   },
   {
     hash: 'i7j8k9l',
@@ -24,6 +26,7 @@ const proyectos = [
     tags: ['React', 'TailwindCSS', 'Framer Motion', 'Vite'],
     type: 'feature',
     metric: 'En vivo — vercel.app',
+    url: null,
   },
 ]
 
@@ -79,9 +82,24 @@ export default function Proyectos() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-mono text-xl font-semibold text-text-primary mb-2">
-                    {proj.title}
-                  </h3>
+                  {proj.url ? (
+                    <a
+                      href={proj.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center gap-2"
+                    >
+                      <h3 className="font-mono text-xl font-semibold text-text-primary group-hover:text-git-green transition-colors">
+                        {proj.title}
+                      </h3>
+                      <span className="font-mono text-xs text-git-green opacity-0 group-hover:opacity-100 transition-opacity">↗</span>
+                    </a>
+                  ) : (
+                    <h3 className="font-mono text-xl font-semibold text-text-primary mb-2">
+                      {proj.title}
+                    </h3>
+                  )}
+
                   <p className="text-text-secondary text-sm leading-relaxed mb-4">
                     {proj.description}
                   </p>
